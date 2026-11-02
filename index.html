@@ -186,6 +186,7 @@ section{scroll-margin-top:90px}
 /* BANNER + CONTACT + FOOTER */
 .reveal{position:relative;height:clamp(110px,14vw,180px);clip-path:inset(0);background:#103633}
 .reveal-bg{position:fixed;inset:0;background-size:min(760px,100vw) auto;background-repeat:no-repeat;background-position:center;background-color:#103633;pointer-events:none}
+@media (min-width:1000px){.reveal-bg{background-size:100vw auto}}
 .contact{background:#163432;color:#f7f0e7;position:relative;overflow:hidden}
 .contact .eyebrow{color:#c8e4de}
 .contact-inner{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,4vw,56px);align-items:end;padding-top:clamp(64px,9vw,104px);position:relative;z-index:1}
@@ -1204,7 +1205,7 @@ const pieceHTML = (a, i) => {
 // Salon-style hang: each column is stacked top to bottom; [a, b] hangs two pieces side by side.
 // Column widths are worked out so every column ends at the same height, giving a tidy composed block.
 const WALL = [
-  [["bronco-rider", "harpy"], ["nostalgia", "freya"], "sirens"],
+  [["nostalgia", "freya"], ["bronco-rider", "harpy"], "sirens"],
   ["out-of-the-gate", "colors-of-lulu", "jormungandr", "odins-wisdom"],
   ["untitled-horse", "wraith", "hydra", "untitled-portrait"]
 ];
