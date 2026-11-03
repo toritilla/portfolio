@@ -546,6 +546,9 @@ section{scroll-margin-top:90px}
 .faucet-row figure{margin:0;display:grid;gap:10px}
 .faucet-row figcaption{text-align:center;font-size:var(--step--1);font-weight:600;color:var(--muted)}
 @media (max-width:640px){.faucet-row{grid-template-columns:1fr}}
+.cs-proto-live{max-width:1000px;border-style:solid;border-color:color-mix(in srgb,var(--fg) 14%,transparent);gap:16px}
+.proto-frame{width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#163432;box-shadow:0 24px 50px -30px rgba(14,53,51,.6)}
+.proto-frame iframe{display:block;width:100%;height:100%;border:0}
 </style>
 </head>
 <body>
@@ -855,10 +858,11 @@ section{scroll-margin-top:90px}
         </article>
       </div>
 
-      <div class="cs-proto" role="note">
-        <svg width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9 21h6M12 17v4M10 8.5l4 2.5-4 2.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <div class="cs-proto cs-proto-live">
         <h3>Interactive prototype</h3>
-        <p>The clickable Figma prototype will be linked here soon.</p>
+        <p>Click through the Flora &amp; Fauna: Reimagined prototype below.</p>
+        <div class="proto-frame"><iframe src="https://embed.figma.com/proto/JC3ssq094KlgsnS6dQqOv9/ATEEE-that.-Design-File?node-id=492-406&amp;p=f&amp;viewport=462%2C246%2C0.04&amp;scaling=scale-down&amp;content-scaling=fixed&amp;starting-point-node-id=492%3A406&amp;page-id=0%3A1&amp;embed-host=share" title="Flora &amp; Fauna: Reimagined interactive Figma prototype" loading="lazy" allowfullscreen></iframe></div>
+        <a class="btn" href="https://embed.figma.com/proto/JC3ssq094KlgsnS6dQqOv9/ATEEE-that.-Design-File?node-id=492-406&amp;p=f&amp;viewport=462%2C246%2C0.04&amp;scaling=scale-down&amp;content-scaling=fixed&amp;starting-point-node-id=492%3A406&amp;page-id=0%3A1&amp;embed-host=share" target="_blank" rel="noopener">Open prototype in a new tab <span aria-hidden="true">&nearr;</span></a>
       </div>
 
       <div class="cs-end">
