@@ -1332,6 +1332,7 @@ cb.innerHTML = `
     <span class="addr" id="addr">${esc(SITE.email)}</span>
     <div class="foot-actions">
       <button class="btn" id="copyEmail" type="button">Copy email</button>
+      <a class="btn" href="Victoria_Ludwig_Resume.pdf" target="_blank" rel="noopener">Resume <span aria-hidden="true">&nearr;</span></a>
       <a class="icon-btn" href="mailto:${esc(SITE.email)}" aria-label="Email Victoria">${ICONS.mail}</a>
       ${SITE.links.map(l => `<a class="icon-btn" href="${esc(l.url)}" target="_blank" rel="noopener" aria-label="${esc(l.label)}">${ICONS[l.icon] || ICONS.link}</a>`).join("")}
     </div>
