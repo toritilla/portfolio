@@ -158,7 +158,7 @@ section{scroll-margin-top:90px}
 @media (max-width:480px){.deck{height:360px;overflow-x:clip}.card{width:180px}.round{width:42px;height:42px}.stage{gap:2px}}
 
 /* ABOUT */
-.about{--about-bg:color-mix(in srgb,var(--mint) 35%,var(--bg));background:var(--about-bg);position:relative}
+.about{background:var(--about-bg);position:relative}
 .about-wave{position:absolute;left:0;top:-1px;width:100%;height:110px;display:block;transform:scaleX(-1);pointer-events:none}
 .about-wave path{fill:var(--bg)}
 .section.about{padding-top:calc(clamp(64px,9vw,112px) + 70px)}
@@ -549,6 +549,28 @@ section{scroll-margin-top:90px}
 .cs-proto-live{max-width:1000px;border-style:solid;border-color:color-mix(in srgb,var(--fg) 14%,transparent);gap:16px}
 .proto-frame{width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#163432;box-shadow:0 24px 50px -30px rgba(14,53,51,.6)}
 .proto-frame iframe{display:block;width:100%;height:100%;border:0}
+
+/* theme toggle */
+.nav-bar{gap:12px}
+.nav-bar .nav-links{margin-left:auto}
+.brand{white-space:nowrap}
+.theme-toggle{order:3;flex:none;background:none;border:0;padding:4px;cursor:pointer;border-radius:999px;color:var(--fg)}
+.tt-track{position:relative;display:block;width:56px;height:30px;border-radius:999px;background:#c8e4de;border:1px solid color-mix(in srgb,#163432 18%,transparent);transition:background .3s}
+.tt-knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fffaf3;box-shadow:0 2px 6px rgba(14,53,51,.35);display:grid;place-items:center;transition:transform .35s var(--ease),background .3s}
+.tt-icon{position:absolute;transition:opacity .25s,transform .4s var(--ease)}
+.tt-sun{color:#d9879d}
+.tt-moon{color:#163432;opacity:0;transform:rotate(-60deg) scale(.6)}
+.theme-toggle[aria-checked="true"] .tt-track{background:#0b1f20;border-color:#2d5452}
+.theme-toggle[aria-checked="true"] .tt-knob{transform:translateX(26px);background:#c8e4de}
+.theme-toggle[aria-checked="true"] .tt-sun{opacity:0;transform:rotate(90deg) scale(.6)}
+.theme-toggle[aria-checked="true"] .tt-moon{opacity:1;transform:none}
+.theme-toggle:hover .tt-knob{box-shadow:0 0 0 4px color-mix(in srgb,#e9b6c5 55%,transparent)}
+@media (max-width:720px){.menu-btn{order:4}.nav-links{order:5}.brand{font-size:1.1rem}.tt-track{width:50px;height:28px}.tt-knob{width:20px;height:20px}.theme-toggle[aria-checked="true"] .tt-knob{transform:translateX(22px)}}
+/* dark-mode refinements */
+:root{--about-bg:color-mix(in srgb,var(--mint) 35%,var(--bg))}
+:root[data-theme="dark"]{--about-bg:#14302f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--about-bg:#14302f}}
+:root[data-theme="dark"] .nav-links a:hover,:root[data-theme="dark"] .nav-links a[aria-current="true"]{background:#c8e4de;color:#163432}
 </style>
 </head>
 <body>
@@ -577,6 +599,14 @@ section{scroll-margin-top:90px}
         <svg class="logo" aria-hidden="true"><use href="#vl-mark"/></svg>
         <span>Victoria Ludwig</span>
       </a>
+      <button class="theme-toggle" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Dark mode">
+        <span class="tt-track" aria-hidden="true">
+          <span class="tt-knob">
+            <svg class="tt-icon tt-sun" width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><g stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g></svg>
+            <svg class="tt-icon tt-moon" width="14" height="14" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" fill="currentColor"/></svg>
+          </span>
+        </span>
+      </button>
       <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
         <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
@@ -1409,6 +1439,26 @@ document.querySelectorAll("[data-scroll]").forEach(b => b.addEventListener("clic
   const navH = document.querySelector(".nav").getBoundingClientRect().bottom;
   scrollTo({ top: scrollY + t.getBoundingClientRect().top - navH - 8, behavior: reduceMotion.matches ? "auto" : "smooth" });
 }));
+
+
+// Light / dark mode toggle (remembers the visitor's choice when the browser allows it)
+const themeBtn = document.getElementById("themeToggle"), rootEl = document.documentElement;
+const sysDark = matchMedia("(prefers-color-scheme: dark)");
+let savedTheme = null;
+try { savedTheme = localStorage.getItem("vl-theme"); } catch (e) {}
+function applyTheme(t) {
+  rootEl.setAttribute("data-theme", t);
+  const dark = t === "dark";
+  themeBtn.setAttribute("aria-checked", dark);
+  themeBtn.setAttribute("aria-label", dark ? "Dark mode on. Switch to light mode" : "Light mode on. Switch to dark mode");
+}
+applyTheme(savedTheme || (sysDark.matches ? "dark" : "light"));
+themeBtn.addEventListener("click", () => {
+  const t = rootEl.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  applyTheme(t);
+  try { localStorage.setItem("vl-theme", t); } catch (e) {}
+});
+sysDark.addEventListener("change", e => { if (!savedTheme) applyTheme(e.matches ? "dark" : "light"); });
 
 // Nav: mobile menu + current section
 const menuBtn = document.getElementById("menuBtn"), links = document.getElementById("navLinks");
