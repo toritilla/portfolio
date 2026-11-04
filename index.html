@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Victoria Ludwig Portfolio</title>
+<meta name="color-scheme" content="light">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23163432'/%3E%3Cg transform='translate(32 32) scale(.215) translate(-172.65 -189.2)' fill='none' stroke='%23c8e4de' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M146.52,229.22c3.63-32.08,12.56-84.39,32.56-90.73'/%3E%3Cpath d='M100.22,205.94c-1.22-19.82,0-30.2,3.63-31.13,6.27-1.61,19.76,24.85,40.47,79.39,0,0,.55-10.4,2.2-24.98'/%3E%3Cpath d='M185.32,114.12v-10.04l8.09,8.64s7.94-3.88,17.59.09l7.77-8.44-.03,151.54h21.31'/%3E%3Crect x='81.59' y='68.92' width='182.13' height='240.61' rx='82.33'/%3E%3C/g%3E%3C/svg%3E">
 <meta name="description" content="Victoria Ludwig, UX designer and artist. Making fun accessible.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,9 +23,6 @@
   --step--1:.875rem; --step-0:1.0625rem; --step-1:1.3rem; --step-2:clamp(1.8rem,1.4rem + 2vw,2.6rem); --step-3:clamp(2.6rem,1.6rem + 4.5vw,4.6rem);
   --ease:cubic-bezier(.22,.8,.3,1);
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#10292a; --fg:#f7f0e7; --muted:#b9d3cd; --hero:#163432; --line:#2d5452;
-  --card-back:#0b1f20; --card-back-fg:#c8e4de; --card-front:#f7f0e7; --nav:rgba(16,41,42,.82); --accent-text:#c8e4de; --em:#e9b6c5; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#10292a; --fg:#f7f0e7; --muted:#b9d3cd; --hero:#163432; --line:#2d5452;
   --card-back:#0b1f20; --card-back-fg:#c8e4de; --card-front:#f7f0e7; --nav:rgba(16,41,42,.82); --accent-text:#c8e4de; --em:#e9b6c5; color-scheme:dark}
@@ -228,7 +226,6 @@ section{scroll-margin-top:90px}
 
 /* ============ CASE STUDY ============ */
 :root{--band:#c8e4de;--card-cream:#fbf7f0}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--band:#173c3a;--card-cream:#f7f0e7}}
 :root[data-theme="dark"]{--band:#173c3a;--card-cream:#f7f0e7}
 .case{display:block;overflow-x:clip}
 .case[hidden]{display:none}
@@ -484,7 +481,6 @@ section{scroll-margin-top:90px}
 .gal-tabs button:hover{background:color-mix(in srgb,var(--pink) 55%,transparent)}
 .gal-tabs button[aria-selected="true"]{background:var(--deep);color:#f7f0e7;box-shadow:0 6px 16px -8px rgba(14,53,51,.6)}
 :root[data-theme="dark"] .gal-tabs button[aria-selected="true"]{background:var(--mint);color:#163432}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .gal-tabs button[aria-selected="true"]{background:var(--mint);color:#163432}}
 .gal-empty{display:grid;justify-items:center;gap:10px;text-align:center;max-width:560px;margin:0 auto;padding:clamp(40px,6vw,72px) 24px;border:2px dashed color-mix(in srgb,var(--fg) 30%,transparent);border-radius:28px;color:var(--fg)}
 .gal-empty h3{font-size:1.9rem}
 .gal-empty p{color:var(--muted)}
@@ -569,7 +565,6 @@ section{scroll-margin-top:90px}
 /* dark-mode refinements */
 :root{--about-bg:color-mix(in srgb,var(--mint) 35%,var(--bg))}
 :root[data-theme="dark"]{--about-bg:#14302f}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--about-bg:#14302f}}
 :root[data-theme="dark"] .nav-links a:hover,:root[data-theme="dark"] .nav-links a[aria-current="true"]{background:#c8e4de;color:#163432}
 </style>
 </head>
@@ -1443,7 +1438,6 @@ document.querySelectorAll("[data-scroll]").forEach(b => b.addEventListener("clic
 
 // Light / dark mode toggle (remembers the visitor's choice when the browser allows it)
 const themeBtn = document.getElementById("themeToggle"), rootEl = document.documentElement;
-const sysDark = matchMedia("(prefers-color-scheme: dark)");
 let savedTheme = null;
 try { savedTheme = localStorage.getItem("vl-theme"); } catch (e) {}
 function applyTheme(t) {
@@ -1452,13 +1446,12 @@ function applyTheme(t) {
   themeBtn.setAttribute("aria-checked", dark);
   themeBtn.setAttribute("aria-label", dark ? "Dark mode on. Switch to light mode" : "Light mode on. Switch to dark mode");
 }
-applyTheme(savedTheme || (sysDark.matches ? "dark" : "light"));
+applyTheme(savedTheme === "dark" ? "dark" : "light");   // light (the original look) unless the visitor chose dark
 themeBtn.addEventListener("click", () => {
   const t = rootEl.getAttribute("data-theme") === "dark" ? "light" : "dark";
   applyTheme(t);
   try { localStorage.setItem("vl-theme", t); } catch (e) {}
 });
-sysDark.addEventListener("change", e => { if (!savedTheme) applyTheme(e.matches ? "dark" : "light"); });
 
 // Nav: mobile menu + current section
 const menuBtn = document.getElementById("menuBtn"), links = document.getElementById("navLinks");
